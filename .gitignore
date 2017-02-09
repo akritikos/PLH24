@@ -1,6 +1,7 @@
 ## Extras
 .idea/
 src/test/
+META-INF/persistence.xml
 
 ## Netbeans
 nbproject/private/
