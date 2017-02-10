@@ -5,6 +5,7 @@
  */
 package info.akritikos.eelections.model;
 
+import info.akritikos.eelections.contracts.IDBEntities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -32,8 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ElectoralPeriphery.findAll", query = "SELECT e FROM ElectoralPeriphery e")
     , @NamedQuery(name = "ElectoralPeriphery.findByPkElectoralPeripheryId", query = "SELECT e FROM ElectoralPeriphery e WHERE e.pkElectoralPeripheryId = :pkElectoralPeripheryId")
     , @NamedQuery(name = "ElectoralPeriphery.findByFldName", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldName = :fldName")
-    , @NamedQuery(name = "ElectoralPeriphery.findByFldRegisteredCitizensCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldRegisteredCitizensCount = :fldRegisteredCitizensCount")})
-public class ElectoralPeriphery implements Serializable {
+    , @NamedQuery(name = "ElectoralPeriphery.findByFldRegisteredCitizensCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldRegisteredCitizensCount = :fldRegisteredCitizensCount")
+//    , @NamedQuery(name = "ElectoralPeriphery.findByFldSeatsCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldSeatsCount = :fldSeatsCount")})
+public class ElectoralPeriphery implements Serializable, IDBEntities {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,6 +48,9 @@ public class ElectoralPeriphery implements Serializable {
     private String fldName;
     @Column(name = "FLD_REGISTERED_CITIZENS_COUNT")
     private Integer fldRegisteredCitizensCount;
+    @Basic(optional = false)
+    @Column(name = "FLD_SEATS_COUNT")
+    private int fldSeatsCount;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkElectoralPeripheryId")
     private List<Candidate> candidateList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkElectoralPeripheryId")
@@ -58,9 +63,10 @@ public class ElectoralPeriphery implements Serializable {
         this.pkElectoralPeripheryId = pkElectoralPeripheryId;
     }
 
-    public ElectoralPeriphery(Integer pkElectoralPeripheryId, String fldName) {
+    public ElectoralPeriphery(Integer pkElectoralPeripheryId, String fldName, int fldSeatsCount) {
         this.pkElectoralPeripheryId = pkElectoralPeripheryId;
         this.fldName = fldName;
+        this.fldSeatsCount = fldSeatsCount;
     }
 
     public Integer getPkElectoralPeripheryId() {
@@ -85,6 +91,14 @@ public class ElectoralPeriphery implements Serializable {
 
     public void setFldRegisteredCitizensCount(Integer fldRegisteredCitizensCount) {
         this.fldRegisteredCitizensCount = fldRegisteredCitizensCount;
+    }
+
+    public int getFldSeatsCount() {
+        return fldSeatsCount;
+    }
+
+    public void setFldSeatsCount(int fldSeatsCount) {
+        this.fldSeatsCount = fldSeatsCount;
     }
 
     @XmlTransient
@@ -127,7 +141,7 @@ public class ElectoralPeriphery implements Serializable {
 
     @Override
     public String toString() {
-        return "info.akritikos.eelections.model.ElectoralPeriphery[ pkElectoralPeripheryId=" + pkElectoralPeripheryId + " ]";
+        return "info.akritikos.eelections.ElectoralPeriphery[ pkElectoralPeripheryId=" + pkElectoralPeripheryId + " ]";
     }
     
 }
