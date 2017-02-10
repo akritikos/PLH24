@@ -5,8 +5,6 @@
  */
 package info.akritikos.eelections.model;
 
-import info.akritikos.eelections.IEntity;
-
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -36,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Candidate.findByPkCandidateId", query = "SELECT c FROM Candidate c WHERE c.pkCandidateId = :pkCandidateId")
     , @NamedQuery(name = "Candidate.findByFldSurname", query = "SELECT c FROM Candidate c WHERE c.fldSurname = :fldSurname")
     , @NamedQuery(name = "Candidate.findByFldName", query = "SELECT c FROM Candidate c WHERE c.fldName = :fldName")})
-public class Candidate implements Serializable, IEntity {
+public class Candidate implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
