@@ -6,8 +6,12 @@
     <class>info.akritikos.eelections.model.PoliticalParty</class>
     <class>info.akritikos.eelections.model.Vote</class>
     <class>info.akritikos.eelections.model.ElectoralPeriphery</class>
+    <class>info.akritikos.eelections.PoliticalParty</class>
+    <class>info.akritikos.eelections.Vote</class>
+    <class>info.akritikos.eelections.Candidate</class>
+    <class>info.akritikos.eelections.ElectoralPeriphery</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/eElectionsDB"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527//home/akritikos/Documents/EAP/PLH24/Databases/eElectionsDB"/>
       <property name="javax.persistence.jdbc.user" value="admin1"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.password" value="admin1"/>
