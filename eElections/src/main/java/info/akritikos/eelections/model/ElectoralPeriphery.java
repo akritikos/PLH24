@@ -8,7 +8,7 @@ package info.akritikos.eelections.model;
 import info.akritikos.eelections.contracts.IDBEntities;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
+import FldSeatsCountFldSeatsCountjavax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "ElectoralPeriphery.findByPkElectoralPeripheryId", query = "SELECT e FROM ElectoralPeriphery e WHERE e.pkElectoralPeripheryId = :pkElectoralPeripheryId")
     , @NamedQuery(name = "ElectoralPeriphery.findByFldName", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldName = :fldName")
     , @NamedQuery(name = "ElectoralPeriphery.findByFldRegisteredCitizensCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldRegisteredCitizensCount = :fldRegisteredCitizensCount")
-//    , @NamedQuery(name = "ElectoralPeriphery.findByFldSeatsCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldSeatsCount = :fldSeatsCount")})
+    , @NamedQuery(name = "ElectoralPeriphery.findByFldSeatsCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldSeatsCount = :fldSeatsCount")})
 public class ElectoralPeriphery implements Serializable, IDBEntities {
 
     private static final long serialVersionUID = 1L;
