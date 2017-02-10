@@ -1,6 +1,7 @@
 ## Extras
-.idea/
 src/test/
+src/main/resources/META-INF/persistence.xml
+META-INF/
 **/persistence.xml
 
 ## Netbeans
