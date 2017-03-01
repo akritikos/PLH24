@@ -139,7 +139,7 @@ public class Vote implements Serializable, IDBEntities {
 
     @Override
     public String toString() {
-        return "info.akritikos.eelections.Vote[ pkVoteId=" + pkVoteId + " ]";
+        return "info.akritikos.eelections.model.Vote[ pkVoteId=" + pkVoteId + " ]";
     }
     
 }

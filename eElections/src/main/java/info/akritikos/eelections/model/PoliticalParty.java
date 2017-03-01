@@ -6,6 +6,8 @@
 package info.akritikos.eelections.model;
 
 import info.akritikos.eelections.contracts.IDBEntities;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "PoliticalParty.findByFldTitle", query = "SELECT p FROM PoliticalParty p WHERE p.fldTitle = :fldTitle")
     , @NamedQuery(name = "PoliticalParty.findByFldLeaderfullname", query = "SELECT p FROM PoliticalParty p WHERE p.fldLeaderfullname = :fldLeaderfullname")})
 public class PoliticalParty implements Serializable, IDBEntities {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -71,7 +77,9 @@ public class PoliticalParty implements Serializable, IDBEntities {
     }
 
     public void setPkPartyId(Integer pkPartyId) {
+        Integer oldPkPartyId = this.pkPartyId;
         this.pkPartyId = pkPartyId;
+        changeSupport.firePropertyChange("pkPartyId", oldPkPartyId, pkPartyId);
     }
 
     public String getFldTitle() {
@@ -79,7 +87,9 @@ public class PoliticalParty implements Serializable, IDBEntities {
     }
 
     public void setFldTitle(String fldTitle) {
+        String oldFldTitle = this.fldTitle;
         this.fldTitle = fldTitle;
+        changeSupport.firePropertyChange("fldTitle", oldFldTitle, fldTitle);
     }
 
     public String getFldLeaderfullname() {
@@ -87,7 +97,9 @@ public class PoliticalParty implements Serializable, IDBEntities {
     }
 
     public void setFldLeaderfullname(String fldLeaderfullname) {
+        String oldFldLeaderfullname = this.fldLeaderfullname;
         this.fldLeaderfullname = fldLeaderfullname;
+        changeSupport.firePropertyChange("fldLeaderfullname", oldFldLeaderfullname, fldLeaderfullname);
     }
 
     @XmlTransient
@@ -130,7 +142,20 @@ public class PoliticalParty implements Serializable, IDBEntities {
 
     @Override
     public String toString() {
-        return "info.akritikos.eelections.PoliticalParty[ pkPartyId=" + pkPartyId + " ]";
+        return fldTitle;
+    }
+
+    public PoliticalParty(String fldTitle, String fldLeaderfullname)
+    {
+        this.fldTitle = fldTitle;
+        this.fldLeaderfullname = fldLeaderfullname;
+    }
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

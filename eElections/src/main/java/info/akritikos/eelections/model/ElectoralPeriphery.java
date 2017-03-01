@@ -6,9 +6,11 @@
 package info.akritikos.eelections.model;
 
 import info.akritikos.eelections.contracts.IDBEntities;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.List;
-import FldSeatsCountFldSeatsCountjavax.persistence.Basic;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "ElectoralPeriphery.findByFldRegisteredCitizensCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldRegisteredCitizensCount = :fldRegisteredCitizensCount")
     , @NamedQuery(name = "ElectoralPeriphery.findByFldSeatsCount", query = "SELECT e FROM ElectoralPeriphery e WHERE e.fldSeatsCount = :fldSeatsCount")})
 public class ElectoralPeriphery implements Serializable, IDBEntities {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,7 +80,9 @@ public class ElectoralPeriphery implements Serializable, IDBEntities {
     }
 
     public void setPkElectoralPeripheryId(Integer pkElectoralPeripheryId) {
+        Integer oldPkElectoralPeripheryId = this.pkElectoralPeripheryId;
         this.pkElectoralPeripheryId = pkElectoralPeripheryId;
+        changeSupport.firePropertyChange("pkElectoralPeripheryId", oldPkElectoralPeripheryId, pkElectoralPeripheryId);
     }
 
     public String getFldName() {
@@ -82,7 +90,9 @@ public class ElectoralPeriphery implements Serializable, IDBEntities {
     }
 
     public void setFldName(String fldName) {
+        String oldFldName = this.fldName;
         this.fldName = fldName;
+        changeSupport.firePropertyChange("fldName", oldFldName, fldName);
     }
 
     public Integer getFldRegisteredCitizensCount() {
@@ -90,7 +100,9 @@ public class ElectoralPeriphery implements Serializable, IDBEntities {
     }
 
     public void setFldRegisteredCitizensCount(Integer fldRegisteredCitizensCount) {
+        Integer oldFldRegisteredCitizensCount = this.fldRegisteredCitizensCount;
         this.fldRegisteredCitizensCount = fldRegisteredCitizensCount;
+        changeSupport.firePropertyChange("fldRegisteredCitizensCount", oldFldRegisteredCitizensCount, fldRegisteredCitizensCount);
     }
 
     public int getFldSeatsCount() {
@@ -98,7 +110,9 @@ public class ElectoralPeriphery implements Serializable, IDBEntities {
     }
 
     public void setFldSeatsCount(int fldSeatsCount) {
+        int oldFldSeatsCount = this.fldSeatsCount;
         this.fldSeatsCount = fldSeatsCount;
+        changeSupport.firePropertyChange("fldSeatsCount", oldFldSeatsCount, fldSeatsCount);
     }
 
     @XmlTransient
@@ -141,7 +155,15 @@ public class ElectoralPeriphery implements Serializable, IDBEntities {
 
     @Override
     public String toString() {
-        return "info.akritikos.eelections.ElectoralPeriphery[ pkElectoralPeripheryId=" + pkElectoralPeripheryId + " ]";
+        return fldName;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
