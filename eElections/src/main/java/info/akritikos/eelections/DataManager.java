@@ -20,13 +20,39 @@ import java.util.List;
 public class DataManager {
 	// For the purposes of this project, EntityManagerFactory can be maintained for the entire
 	// application cycle without the need to close it.
-	private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("eElectionsDB");
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("eElectionsDB");
 	private static EntityManager em;
 
+        /**
+         * Simplified parameterless constructor, defaults to "eElectionsDB"
+         * for the Persistence Unit.
+         */
 	public DataManager() {
-		if ( em == null || !em.isOpen())
-			em = emf.createEntityManager();
+            this("eElectionsDB");
 	}
+        
+        /**
+         * 
+         * @param PUnit Name of the persistence unit to connect to.
+         */
+        public DataManager(String PUnit){
+            try {
+                emf = Persistence.createEntityManagerFactory(PUnit);
+                checkEM();
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+        
+        /**
+         * Internal use, starts a new EntityManager if the current one 
+         * is closed or invalid.
+         */
+        private void checkEM(){
+            if (em == null || !em.isOpen())
+                em = emf.createEntityManager();
+        }
 
 	/**
 	 * Retrieves all records of a selected type from persistence
@@ -39,6 +65,7 @@ public class DataManager {
 		System.out.println(type.getSimpleName());
 		List<T> result = new ArrayList<>();
 		try {
+                        checkEM();
 			Query q = em.createNamedQuery(type.getSimpleName() + ".findAll", type);
 			result = q.getResultList();
 		} catch (Exception e) {
@@ -88,6 +115,7 @@ public class DataManager {
 
 		List<T> result = new ArrayList<>();
 		try {
+                        checkEM();
 			result = q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,12 +141,13 @@ public class DataManager {
 		// Don't enter nulls into DB
 		if (element != null) {
 			try {
-				em.getTransaction().begin();
-				em.persist(element);
-				em.getTransaction().commit();
+                            checkEM();
+                            em.getTransaction().begin();
+                            em.persist(element);
+                            em.getTransaction().commit();
 			} catch (Exception e) {
-				e.printStackTrace();
-				em.getTransaction().rollback();
+                            e.printStackTrace();
+                            em.getTransaction().rollback();
 			}
 		}
 	}
@@ -133,13 +162,14 @@ public class DataManager {
 		// Don't try to delete null entries
 		if (element != null) {
 			try {
-				em.getTransaction().begin();
-                                em.merge(element);
-				em.remove(element);
-				em.getTransaction().commit();
+                            checkEM();
+                            em.getTransaction().begin();
+                            em.merge(element);
+                            em.remove(element);
+                            em.getTransaction().commit();
 			} catch (Exception e) {
-				e.printStackTrace();
-				em.getTransaction().rollback();
+                            e.printStackTrace();
+                            em.getTransaction().rollback();
 			}
 		}
 	}
