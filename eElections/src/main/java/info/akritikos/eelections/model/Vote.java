@@ -142,4 +142,16 @@ public class Vote implements Serializable, IDBEntities {
         return "info.akritikos.eelections.model.Vote[ pkVoteId=" + pkVoteId + " ]";
     }
     
+    public Vote(boolean fldIsBlank, boolean fldIsInvalid){
+        this.fldIsBlank = fldIsBlank;
+        this.fldIsInvalid = fldIsInvalid;
+    }
+    
+    public Vote(Candidate fkCandidateId, PoliticalParty fkPoliticalPartyId, ElectoralPeriphery fkElectoralPeripheryId){
+        fldIsBlank = false;
+        fldIsInvalid = false;
+        this.fkCandidateId = fkCandidateId;
+        this.fkPoliticalPartyId = fkPoliticalPartyId;
+        this.fkElectoralPeripheryId = fkElectoralPeripheryId;
+    }
 }
