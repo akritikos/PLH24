@@ -5,6 +5,9 @@ src/main/resources/META-INF/persistence.xml
 META-INF/
 **/persistence.xml
 
+## Local Tests
+Debug.java
+
 ## Netbeans
 nbproject/private/
 build/

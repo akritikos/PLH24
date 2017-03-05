@@ -22,6 +22,7 @@ public class DataManager {
 	// application cycle without the need to close it.
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("eElectionsDB");
 	private static EntityManager em;
+        private static String PUnit;
 
         /**
          * Simplified parameterless constructor, defaults to "eElectionsDB"
@@ -36,9 +37,10 @@ public class DataManager {
          * @param PUnit Name of the persistence unit to connect to.
          */
         public DataManager(String PUnit){
+            DataManager.PUnit = PUnit;
             try {
                 emf = Persistence.createEntityManagerFactory(PUnit);
-                checkEM();
+                checkStatus();
             }
             catch (Exception ex){
                 ex.printStackTrace();
@@ -49,7 +51,9 @@ public class DataManager {
          * Internal use, starts a new EntityManager if the current one 
          * is closed or invalid.
          */
-        private void checkEM(){
+        private void checkStatus(){
+            if (!emf.isOpen())
+                emf = Persistence.createEntityManagerFactory(PUnit);
             if (em == null || !em.isOpen())
                 em = emf.createEntityManager();
         }
@@ -65,7 +69,7 @@ public class DataManager {
 		System.out.println(type.getSimpleName());
 		List<T> result = new ArrayList<>();
 		try {
-                        checkEM();
+                        checkStatus();
 			Query q = em.createNamedQuery(type.getSimpleName() + ".findAll", type);
 			result = q.getResultList();
 		} catch (Exception e) {
@@ -115,7 +119,7 @@ public class DataManager {
 
 		List<T> result = new ArrayList<>();
 		try {
-                        checkEM();
+                        checkStatus();
 			result = q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,7 +145,7 @@ public class DataManager {
 		// Don't enter nulls into DB
 		if (element != null) {
 			try {
-                            checkEM();
+                            checkStatus();
                             em.getTransaction().begin();
                             em.persist(element);
                             em.getTransaction().commit();
@@ -162,7 +166,7 @@ public class DataManager {
 		// Don't try to delete null entries
 		if (element != null) {
 			try {
-                            checkEM();
+                            checkStatus();
                             em.getTransaction().begin();
                             em.merge(element);
                             em.remove(element);
