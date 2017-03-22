@@ -141,9 +141,9 @@ public class PoliticalParty implements Serializable, IDBEntities {
 		return fldTitle;
 	}
 
-    @Override
-    public Integer getID() {
-        return pkPartyId;
-    }
+	@Override
+	public Integer getID() {
+		return pkPartyId;
+	}
 
 }

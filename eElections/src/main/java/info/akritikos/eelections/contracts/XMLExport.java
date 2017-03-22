@@ -10,5 +10,5 @@ package info.akritikos.eelections.contracts;
  * @author akritikos
  */
 public interface XMLExport {
-    public String toXML();
+	public String toXML();
 }

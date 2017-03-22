@@ -155,9 +155,9 @@ public class ElectoralPeriphery implements Serializable, IDBEntities {
 		this.fldName = fldName;
 	}
 
-    @Override
-    public Integer getID() {
-        return pkElectoralPeripheryId;
-    }
+	@Override
+	public Integer getID() {
+		return pkElectoralPeripheryId;
+	}
 
 }

@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 	, @NamedQuery(name = "Vote.findByPkVoteId", query = "SELECT v FROM Vote v WHERE v.pkVoteId = :pkVoteId")
 	, @NamedQuery(name = "Vote.findByFldIsInvalid", query = "SELECT v FROM Vote v WHERE v.fldIsInvalid = :fldIsInvalid")
 	, @NamedQuery(name = "Vote.findByFldIsBlank", query = "SELECT v FROM Vote v WHERE v.fldIsBlank = :fldIsBlank")
+	, @NamedQuery(name = "Vote.Count", query = "SELECT COUNT(v) FROM Vote v")
+	, @NamedQuery(name = "Vote.CountErroneous", query = "SELECT COUNT(v) FROM Vote v where v.fldIsBlank = :fldIsBlank AND  v.fldIsInvalid = :fldIsInvalid")
+	, @NamedQuery(name = "Vote.CountErroneousPeriphery", query = "SELECT COUNT(v) FROM Vote v where v.fldIsBlank = :fldIsBlank AND  v.fldIsInvalid = :fldIsInvalid AND v.fkElectoralPeripheryId = :fkElectoralPeripheryId")
+	, @NamedQuery(name = "Vote.CountErroneousFull", query = "SELECT COUNT(v) FROM Vote v where v.fldIsBlank = :fldIsBlank AND  v.fldIsInvalid = :fldIsInvalid AND v.fkElectoralPeripheryId = :fkElectoralPeripheryId AND v.fkPoliticalPartyId = :fkPoliticalPartyId")
 	, @NamedQuery(name = "Vote.CountPeriphery", query = "SELECT COUNT(v) FROM Vote v WHERE v.fkElectoralPeripheryId = :fkElectoralPeripheryId")
 	, @NamedQuery(name = "Vote.CountCandidate", query = "SELECT COUNT(v) FROM Vote v WHERE v.fkCandidateId = :fkCandidateId")
 	, @NamedQuery(name = "Vote.CountParty", query = "SELECT COUNT(v) FROM Vote v WHERE v.fkPoliticalPartyId = :fkPoliticalPartyId")
@@ -158,7 +162,7 @@ public class Vote implements Serializable, IDBEntities {
 	}
 
 	public Vote(Candidate fkCandidateId, PoliticalParty fkPoliticalPartyId,
-	            ElectoralPeriphery fkElectoralPeripheryId) {
+				ElectoralPeriphery fkElectoralPeripheryId) {
 		this.fkCandidateId = fkCandidateId;
 		this.fkPoliticalPartyId = fkPoliticalPartyId;
 		this.fkElectoralPeripheryId = fkElectoralPeripheryId;
@@ -166,8 +170,8 @@ public class Vote implements Serializable, IDBEntities {
 		fldIsInvalid = false;
 	}
 
-    @Override
-    public Integer getID() {
-        return pkVoteId.intValue();
-    }
+	@Override
+	public Integer getID() {
+		return pkVoteId.intValue();
+	}
 }

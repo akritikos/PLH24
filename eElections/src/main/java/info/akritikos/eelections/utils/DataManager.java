@@ -33,10 +33,10 @@ public class DataManager {
 	 * Creates a new DataManager binding to the Persistence Unit provided
 	 * @param PUnit The name of the Persistence Unit to use
 	 */
-	public DataManager(String PUnit) {
+	public DataManager(String PUnit) throws PersistenceException {
 		DataManager.PUnit = PUnit;
-                if (emf == null || !emf.isOpen())
-                    emf = Persistence.createEntityManagerFactory(PUnit);
+		if (emf == null || !emf.isOpen())
+			emf = Persistence.createEntityManagerFactory(PUnit);
 	}
 
 	/**
@@ -48,8 +48,8 @@ public class DataManager {
 			emf = Persistence.createEntityManagerFactory(PUnit);
 		EntityManager em = threadLocal.get();
 		if (em == null || !em.isOpen()) {
-                    em = emf.createEntityManager();
-                    threadLocal.set(em);
+			em = emf.createEntityManager();
+			threadLocal.set(em);
 		}
 		return em;
 	}
@@ -90,7 +90,7 @@ public class DataManager {
 	 * @return ObservableList containing result
 	 */
 	public <T extends IDBEntities> List<T> find(Class<? extends IDBEntities> type,
-	        ISearchQueries query, String val) {
+			ISearchQueries query, String val) {
 		// Transient search is meaningless
 		if (val == null)
 			return null;
@@ -137,14 +137,13 @@ public class DataManager {
 		EntityManager em = getEM();
 		try {
 			em.getTransaction().begin();
-                        try {
-                            // If ID is set, this is an existing element
-                            if (element.getID() != null)
-                                em.merge(element);
-                        }
-                        catch (NullPointerException ex) {
-                            em.persist(element);
-                        }
+			try {
+				// If ID is set, this is an existing element
+				if (element.getID() != null)
+					em.merge(element);
+			} catch (NullPointerException ex) {
+				em.persist(element);
+			}
 			em.getTransaction().commit();
 		} catch (Exception ex) {
 			em.getTransaction().rollback();
@@ -168,13 +167,12 @@ public class DataManager {
 			em.getTransaction().begin();
 			for (IDBEntities element : elements) {
 				if (element != null) {
-                                    try {
-                                        if (element.getID() != null)
-                                            em.merge(element);
-                                    }
-                                    catch (NullPointerException ex) {
-                                        em.persist(element);
-                                    }
+					try {
+						if (element.getID() != null)
+							em.merge(element);
+					} catch (NullPointerException ex) {
+						em.persist(element);
+					}
 				}
 			}
 			em.getTransaction().commit();
@@ -264,13 +262,16 @@ public class DataManager {
 	 * @param type
 	 * @return
 	 */
+	@SuppressWarnings("empty-statement")
 	public int countVotes(Candidate fkCandidateId, PoliticalParty fkPoliticalPartyId,
-	                      ElectoralPeriphery fkElectoralPeripheryId, Class<? extends IDBEntities> type) {
+						  ElectoralPeriphery fkElectoralPeripheryId, Class<? extends IDBEntities> type) {
 		EntityManager em = getEM();
 		int result = 0;
 		final String toQuery = "Vote.Count";
 		Query q;
-		if (type == Candidate.class) {
+		if (type == null) {
+			q = em.createNamedQuery(toQuery);
+		} else if (type == Candidate.class) {
 			q = em.createNamedQuery(toQuery + "Candidate");
 			q.setParameter("fkCandidateId", fkCandidateId);
 		} else if (type == PoliticalParty.class && fkElectoralPeripheryId == null) {
@@ -284,6 +285,33 @@ public class DataManager {
 			q = em.createNamedQuery(toQuery + "Periphery");
 			q.setParameter("fkElectoralPeripheryId", fkElectoralPeripheryId);
 		}
+		try {
+			result = Integer.parseInt(q.getSingleResult().toString());
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		} finally {
+			em.close();
+		}
+		return result;
+	}
+
+	public int erroneousVotes(boolean fldIsBlank, boolean fldisInvalid, ElectoralPeriphery fkElectoralPeripheryId, PoliticalParty fkPoliticalPartyId) {
+		EntityManager em = getEM();
+		int result = 0;
+		final String toQuery = "Vote.CountErroneous";
+		Query q;
+		if (fkPoliticalPartyId != null) {
+			q = em.createNamedQuery(toQuery + "Full");
+			q.setParameter("fkPoliticalPartyId", fkPoliticalPartyId);
+
+		} else if (fkElectoralPeripheryId != null) {
+			q = em.createNamedQuery(toQuery + "Periphery");
+			q.setParameter("fkElectoralPeripheryId", fkElectoralPeripheryId);
+		} else {
+			q = em.createNamedQuery(toQuery);
+		}
+		q.setParameter("fldIsBlank", fldIsBlank);
+		q.setParameter("fldIsInvalid", fldisInvalid);
 		try {
 			result = Integer.parseInt(q.getSingleResult().toString());
 		} catch (Exception ex) {

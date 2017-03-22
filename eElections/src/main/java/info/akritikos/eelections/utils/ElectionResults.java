@@ -2,7 +2,7 @@ package info.akritikos.eelections.utils;
 
 import javax.xml.bind.annotation.*;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -10,10 +10,8 @@ import java.util.Map;
  * Created by akritikos on 13/03/2017.
  */
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
-public class ElectionResults extends HashMap {
+public class ElectionResults extends LinkedHashMap {
 	private String name;
-
 	public ElectionResults() {
 		super();
 	}
@@ -26,7 +24,7 @@ public class ElectionResults extends HashMap {
 		super(m);
 		this.name = name;
 	}
-//	@XmlAttribute
+	@XmlTransient
 	public String getName() {
 		return name;
 	}

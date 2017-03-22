@@ -160,9 +160,9 @@ public class Candidate implements Serializable, IDBEntities {
 		return "info.akritikos.eelections.Candidate[ pkCandidateId=" + pkCandidateId + " ]";
 	}
 
-    @Override
-    public Integer getID() {
-        return pkCandidateId.intValue();
-    }
+	@Override
+	public Integer getID() {
+		return pkCandidateId.intValue();
+	}
 
 }
