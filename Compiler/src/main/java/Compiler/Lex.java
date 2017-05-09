@@ -11,16 +11,16 @@ import java.util.regex.Pattern;
 
 public class Lex {
 	private ArrayList<Token> tokens;
+
 	public ArrayList<Token> getTokens() {
 		return tokens;
 	}
 
 	public Lex(String filename) {
-		String input=null;
+		String input = null;
 		try {
 			input = new Scanner(new File(filename)).useDelimiter("\\A").next();
-		}
-		catch (FileNotFoundException ex) {
+		} catch (FileNotFoundException ex) {
 			Logger.getLogger(Lex.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
@@ -37,19 +37,27 @@ public class Lex {
 				if (matcher.group(token.name()) != null) {
 					if (null != token.name()) {
 						switch (token.name()) {
-							case "unknownTK":	// άγνωστος χαρακτήρας
-								break;
-							case "newLineTK":	// αλλαγή γραμής
-								break;
-							case "whitespaceTK":	// λευκός χαρακτήρας
-								break;
-							default:	// κάθε τι άλλο
-
-								break;
+						case "unknownTK": // άγνωστος χαρακτήρας
+							// Captured invalid token, output token name and line it was met at
+							System.out.println(
+									"Μη αποδεκτή λεκτική μονάδα: " + matcher.group() + "\n\tστην γραμμή:" + lineCount);
+							break;
+						case "newLineTK": // αλλαγή γραμής
+							// move the line counter
+							lineCount++;
+							break;
+						case "whitespaceTK": // λευκός χαρακτήρας
+							// whitespace is irrelevant, no actions required
+							break;
+						default: // κάθε τι άλλο
+							// captured valid token, create new instance and save it
+							Token t = new Token(token, matcher.group(), lineCount);
+							tokens.add(t);
+							break;
 						} // switch token.name
 					} // null check
 				} // null check
-			}	// for TokenType
+			} // for TokenType
 		} // while matcher.find
 	} // ctor
 }
