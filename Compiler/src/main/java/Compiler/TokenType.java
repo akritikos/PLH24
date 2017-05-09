@@ -11,7 +11,7 @@ public enum TokenType {
 	endTK("end"), // δεσμευμένη λέξη end
 	printTK("print"), // δεσμευμένη λέξη print
 	inputTK("input"), // δεσμευμένη λέξη input
-	variableTK("[a-zA-Ζ]([a-ZA-z]|[0-9])*"), // μεταβλητή
+	variableTK("[a-zA-Z]([a-zA-Z]|[0-9])*"), // μεταβλητή
 	plusTK("\\+"), // σύμβολο πρόσθεσης
 	minusTK("\\-"), // σύμβολο αφαίρεσης
 	multTK("\\*"), // σύμβολο πολλαπλασιασμού

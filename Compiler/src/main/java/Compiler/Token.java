@@ -5,7 +5,7 @@ package Compiler;
  * data and the line number it occured in
  */
 public class Token {
-	public TokenType type;
+	private TokenType type;
 	private String data;
 	private int line;
 
