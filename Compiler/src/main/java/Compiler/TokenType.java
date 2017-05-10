@@ -1,8 +1,8 @@
 package Compiler;
 
 public enum TokenType {
+	newlineTK("(\\R)"), // αλλαγή γραμμής
 	whitespaceTK("\\s"), //λευκός χαρακτήρας
-	newlineTK("\\n"), // αλλαγή γραμμής
 	constantTK("-?\\d+\\.\\d+|-?\\d+"), // αριθμητική σταθερά
 	programTK("\\bprogram\\b"), // δεσμευμένη λέξη program
 	declareTK("\\bdeclare\\b"), // δεσμευμένη λέξη declare
