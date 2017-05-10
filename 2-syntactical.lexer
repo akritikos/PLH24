@@ -1,8 +1,0 @@
-program area
-begin
-	declare a,b,m enddeclare
-		input (a);
-		input (b);
-			m-a*b;
-		print(s)
-end
