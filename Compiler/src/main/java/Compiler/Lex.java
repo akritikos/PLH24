@@ -33,6 +33,7 @@ public class Lex {
 		}
 		Pattern tokenPatterns = Pattern.compile(tokenPatternsBuffer.substring(1));
 		Matcher matcher = tokenPatterns.matcher(input);
+		System.out.println("Beginning analysis of file:\t" + filename);
 		while (matcher.find()) {
 			for (TokenType token : TokenType.values()) {
 				if (matcher.group(token.name()) != null) {
@@ -40,10 +41,10 @@ public class Lex {
 						switch (token.name()) {
 						case "unknownTK": // άγνωστος χαρακτήρας
 							// Captured invalid token, output token name and line it was met at
-							System.out.println(
-									"Unacceptable entry: " + matcher.group() + "\n\tin line:" + lineCount);
+							System.out.println("Unacceptable entry: " + matcher.group() + "\n\tin line:" + lineCount);
+							System.exit(0);
 							break;
-						case "newLineTK": // αλλαγή γραμής
+						case "newlineTK": // αλλαγή γραμής
 							// move the line counter
 							lineCount++;
 							break;
@@ -60,6 +61,6 @@ public class Lex {
 				} // null check
 			} // for TokenType
 		} // while matcher.find
-		System.out.println("Lexical analysis complete on file:\n\t" + filename);
+		System.out.println("Lexical analysis complete on file:\t" + filename);
 	} // ctor
 }
