@@ -1,0 +1,15 @@
+program first
+begin
+	declare a,b,c,d,m,s enddeclare
+		input (a);
+		input (b);
+		input (c);
+		input (d);
+			m:=(a+b+c+d)/4;
+		s:=0;
+		s:=s+(m-a)*(m-a);
+		s:=s+(m-b)*(m-b);
+		s:=s+(m-c)*(m-c);
+		s:=s+(m-d)*(m-d);
+		print(s)
+end

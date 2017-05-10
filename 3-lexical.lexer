@@ -1,0 +1,7 @@
+program %radiusvoid
+begin
+	declare a,R^2 enddeclare
+	input (a);
+	R:=3.14*a;
+	print (R)
+end
