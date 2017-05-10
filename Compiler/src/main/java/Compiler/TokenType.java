@@ -4,23 +4,23 @@ public enum TokenType {
 	whitespaceTK("\\s"), //λευκός χαρακτήρας
 	newlineTK("\\n"), // αλλαγή γραμμής
 	constantTK("-?\\d+\\.\\d+|-?\\d+"), // αριθμητική σταθερά
-	programTK("program"), // δεσμευμένη λέξη program
-	declareTK("declare"), // δεσμευμένη λέξη declare
-	enddeclareTK("enddeclare"), // δεσμευμένη λέξη enddeclare
-	beginTK("begin"), // δεσμευμένη λέξη begin
-	endTK("end"), // δεσμευμένη λέξη end
-	printTK("print"), // δεσμευμένη λέξη print
-	inputTK("input"), // δεσμευμένη λέξη input
-	variableTK("[a-zA-Z]([a-zA-Z]|[0-9])*"), // μεταβλητή
+	programTK("\\bprogram\\b"), // δεσμευμένη λέξη program
+	declareTK("\\bdeclare\\b"), // δεσμευμένη λέξη declare
+	enddeclareTK("\\benddeclare\\b"), // δεσμευμένη λέξη enddeclare
+	beginTK("\\bbegin\\b"), // δεσμευμένη λέξη begin
+	endTK("\\bend\\b"), // δεσμευμένη λέξη end
+	printTK("\\bprint\\b"), // δεσμευμένη λέξη print
+	inputTK("\\binput\\b"), // δεσμευμένη λέξη input
+	variableTK("\\b[a-zA-Z]([a-zA-Z0-9])*\\b"), // μεταβλητή
 	plusTK("\\+"), // σύμβολο πρόσθεσης
-	minusTK("\\-"), // σύμβολο αφαίρεσης
+	minusTK("-"), // σύμβολο αφαίρεσης
 	multTK("\\*"), // σύμβολο πολλαπλασιασμού
 	divTK("\\/"), // σύμβολο διαίρεσης
 	leftpTK("\\("), // σύμβολο αριστερής παρένθεσης
 	rightpTK("\\)"), // σύμβολο δεξιάς παρένθεσης
 	assignTK(":="), // σύμβολο εκχώρησης
 	semicolTK(";"), // ελληνικό ερωτηματικό
-	commaTK("."), // κόμμα
+	commaTK(","), // κόμμα
 	unknownTK("."), // άγνωστος χαρακτήρας, θα οδηγεί σε μήνυμα σφάλματος
 	ofTK("\\Z"); // τέλος προγράμματος
 

@@ -31,8 +31,8 @@ public class Lex {
 		for (TokenType tokenType : TokenType.values()) {
 			tokenPatternsBuffer.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
 		}
-                Pattern tokenPatterns = Pattern.compile(tokenPatternsBuffer.substring(1));
-                Matcher matcher = tokenPatterns.matcher(input);
+		Pattern tokenPatterns = Pattern.compile(tokenPatternsBuffer.substring(1));
+		Matcher matcher = tokenPatterns.matcher(input);
 		while (matcher.find()) {
 			for (TokenType token : TokenType.values()) {
 				if (matcher.group(token.name()) != null) {
@@ -60,6 +60,6 @@ public class Lex {
 				} // null check
 			} // for TokenType
 		} // while matcher.find
-                System.out.println("Lexer finished analysis on file:\n\t"+filename);
+		System.out.println("Lexical analysis complete on file:\n\t" + filename);
 	} // ctor
 }
