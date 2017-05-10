@@ -41,7 +41,7 @@ public class Lex {
 						case "unknownTK": // άγνωστος χαρακτήρας
 							// Captured invalid token, output token name and line it was met at
 							System.out.println(
-									"Μη αποδεκτή λεκτική μονάδα: " + matcher.group() + "\n\tστην γραμμή:" + lineCount);
+									"Unacceptable entry: " + matcher.group() + "\n\tin line:" + lineCount);
 							break;
 						case "newLineTK": // αλλαγή γραμής
 							// move the line counter
