@@ -11,7 +11,9 @@ public class Parser {
 	public Parser(ArrayList<Token> tokens) {
 		symbolTable = new SymbolTable();
 		Parser.tokens = tokens;
+		System.out.println("Beginning syntactical analysis");
 		program();
+		System.out.println("Syntactical analysis complete");
 	}
 
 	private static Token next() {
@@ -19,7 +21,7 @@ public class Parser {
 	}
 
 	public static void error(String s) {
-		System.out.println("Error: '" + s + "'\n\t in line :" + token.getLine());
+		System.out.println("\tError: '" + s + "'\n\t in line :" + token.getLine());
 	}
 
 	// program program_name <BLOCK>
@@ -50,7 +52,6 @@ public class Parser {
 		} else {
 			error("No begin point defined");
 		}
-		System.out.println("Syntactical analysis complete");
 	}
 
 	//<DECLARATIONS>::= ε | declare <VARLIST> enddeclare
